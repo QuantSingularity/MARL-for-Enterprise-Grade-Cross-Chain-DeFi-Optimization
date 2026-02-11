@@ -1,0 +1,58 @@
+# MARL Cross-Chain DeFi - Python Requirements
+# Python 3.10+ required
+
+# Core ML/DL
+torch>=2.0.0
+numpy>=1.24.0
+scipy>=1.10.0
+
+# Graph Neural Networks
+torch-geometric>=2.3.0
+torch-scatter>=2.1.0
+torch-sparse>=0.6.0
+
+# RL Frameworks
+gymnasium>=0.28.0
+pettingzoo>=1.24.0
+stable-baselines3>=2.0.0
+
+# Data Processing
+pandas>=2.0.0
+pyarrow>=12.0.0
+
+# Blockchain/Web3
+web3>=6.0.0
+eth-account>=0.8.0
+
+# Visualization
+matplotlib>=3.7.0
+seaborn>=0.12.0
+plotly>=5.14.0
+
+# Jupyter Notebooks
+jupyter>=1.0.0
+ipython>=8.12.0
+ipywidgets>=8.0.0
+
+# Configuration
+pyyaml>=6.0
+hydra-core>=1.3.0
+python-dotenv>=1.0.0
+
+# Testing
+pytest>=7.3.0
+pytest-cov>=4.1.0
+hypothesis>=6.75.0
+
+# Logging and Monitoring
+wandb>=0.15.0
+tensorboard>=2.13.0
+tqdm>=4.65.0
+
+# Utilities
+click>=8.1.0
+rich>=13.3.0
+pydantic>=2.0.0
+
+# Optional: For advanced GNN experiments
+# dgl>=1.1.0  # Uncomment if needed
