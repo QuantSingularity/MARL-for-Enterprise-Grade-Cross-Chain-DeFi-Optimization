@@ -1,4 +1,4 @@
-# MARL for Enterprise-Grade Cross-Chain DeFi Optimization
+# MARL Cross-Chain DeFi Optimization
 
 ## Quick Start
 
