@@ -8,13 +8,13 @@ environment:
       block_time: 12.0
       base_gas_price: 20.0
       gas_volatility: 0.1
-    
+
     - name: Arbitrum
       chain_id: 42161
       block_time: 0.25
       base_gas_price: 0.1
       gas_volatility: 0.05
-  
+
   bridges:
     - name: Arbitrum_Bridge
       source_chain: Ethereum
@@ -24,48 +24,48 @@ environment:
       latency_std: 120.0
       failure_rate: 0.01
       fee_basis_points: 10
-    
+
     - name: Arbitrum_Exit
       source_chain: Arbitrum
       target_chain: Ethereum
       capacity: 5000.0
-      latency_mean: 86400.0  # ~7 days for optimistic rollup
+      latency_mean: 86400.0 # ~7 days for optimistic rollup
       latency_std: 3600.0
       failure_rate: 0.005
       fee_basis_points: 10
-  
+
   pools:
     Ethereum:
       - token_a: ETH
         token_b: USDC
         reserve_a: 1000.0
         reserve_b: 2000000.0
-        fee_tier: 30  # 0.3%
-    
+        fee_tier: 30 # 0.3%
+
     Arbitrum:
       - token_a: ETH
         token_b: USDC
         reserve_a: 500.0
         reserve_b: 1000000.0
         fee_tier: 30
-  
+
   initial_balances:
     ETH: 10.0
     USDC: 20000.0
-  
+
   max_steps: 50
 
 training:
   # Agent configuration
   n_agents: 2
   hidden_dim: 64
-  
+
   # RL hyperparameters
   gamma: 0.99
   lr: 5e-4
   lr_actor: 3e-4
   lr_critic: 1e-3
-  
+
   # Training settings (reduced for demo)
   n_episodes: 50
   batch_size: 16
@@ -73,7 +73,7 @@ training:
   target_update_freq: 5
   updates_per_episode: 1
   ppo_epochs: 5
-  
+
   # Device
   device: cpu
 
