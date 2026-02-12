@@ -116,8 +116,7 @@ MARL-for-Enterprise-Grade-Cross-Chain-DeFi-Optimization/
 │   └── DATA_ACQUISITION_PLAN.md
 ├── .github/
 │   └── workflows/           # CI/CD pipelines
-│       ├── cicd.yml         # Formatting checks
-│       └── test.yml         # Automated testing
+│       └── cicd.yml         # Formatting checks
 ├── Dockerfile
 ├── docker-compose.yml
 ├── README.md
