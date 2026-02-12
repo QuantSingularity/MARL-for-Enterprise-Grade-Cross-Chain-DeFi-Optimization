@@ -13,7 +13,7 @@ Production-grade implementation of **Multi-Agent Reinforcement Learning (MARL)**
 
 ```bash
 # Clone the repository
-git clone https://github.com/username/marl-crosschain-defi.git
+git clone https://github.com/quantsingularity/marl-crosschain-defi.git
 cd marl-crosschain-defi/code
 
 # Install dependencies
