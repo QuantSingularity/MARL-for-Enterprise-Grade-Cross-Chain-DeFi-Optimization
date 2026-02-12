@@ -1,4 +1,4 @@
-# Multi-Agent Reinforcement Learning for Cross-Chain DeFi Optimization
+# MARL for Cross-Chain DeFi Optimization
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
@@ -6,15 +6,6 @@
 ## Overview
 
 Production-grade implementation of **Multi-Agent Reinforcement Learning (MARL)** for optimizing cross-chain decentralized finance (DeFi) operations. This system addresses liquidity fragmentation, suboptimal routing, and bridge risks across multiple blockchain networks using state-of-the-art MARL algorithms.
-
-### Key Features
-
-✅ **Complete Implementation** - Fully functional QMIX and MAPPO agents  
-✅ **Production Ready** - Logging, checkpointing, monitoring, configuration validation  
-✅ **Robust Testing** - Unit tests, integration tests, CI/CD pipeline  
-✅ **Dockerized** - Reproducible containerized environment  
-✅ **Well Documented** - Comprehensive docs, examples, and research proposal  
-✅ **Research Quality** - Publication-ready PDF with figures and diagrams
 
 ## Quick Start
 
