@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  marl-training:
+    build: .
+    image: marl-defi:latest
+    container_name: marl-training
+    volumes:
+      - ./checkpoints:/app/checkpoints
+      - ./results:/app/results
+      - ./data:/app/data
+      - ./logs:/app/logs
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: python code/src/train/train_synthetic.py --config code/configs/demo.yaml --agent all
+
+  marl-eval:
+    build: .
+    image: marl-defi:latest
+    container_name: marl-eval
+    volumes:
+      - ./checkpoints:/app/checkpoints
+      - ./results:/app/results
+    command: python code/src/eval/evaluate_demo.py --checkpoint /app/checkpoints/qmix_model.pth --agent-type qmix
+    depends_on:
+      - marl-training
