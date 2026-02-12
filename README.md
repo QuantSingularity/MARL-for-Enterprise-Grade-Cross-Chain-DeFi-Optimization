@@ -75,7 +75,7 @@ MARL Agents
 ## Repository Structure
 
 ```
-marl-crosschain-defi/
+MARL-for-Enterprise-Grade-Cross-Chain-DeFi-Optimization/
 ├── code/
 │   ├── src/
 │   │   ├── agents/          # MARL algorithms (QMIX, MAPPO, baselines)
