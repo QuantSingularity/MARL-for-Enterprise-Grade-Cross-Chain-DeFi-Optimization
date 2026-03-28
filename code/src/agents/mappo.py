@@ -236,7 +236,7 @@ class MAPPOAgent:
             entropy: (batch, n_agents)
             values: (batch, 1)
         """
-        observations.size(0)
+        batch_size = observations.size(0)  # noqa: F841  (used implicitly via loop)
 
         log_probs = []
         entropies = []
@@ -355,23 +355,18 @@ class MAPPOAgent:
             # Entropy bonus
             entropy_bonus = entropy.mean()
 
-            # Total loss
             loss = (
                 actor_loss
                 + self.value_loss_coef * critic_loss
                 - self.entropy_coef * entropy_bonus
             )
 
-            # Update actor
             self.actor_optimizer.zero_grad()
-            actor_loss.backward(retain_graph=True)
-            nn.utils.clip_grad_norm_(self.actor.parameters(), self.max_grad_norm)
-            self.actor_optimizer.step()
-
-            # Update critic
             self.critic_optimizer.zero_grad()
-            critic_loss.backward()
+            loss.backward()
+            nn.utils.clip_grad_norm_(self.actor.parameters(), self.max_grad_norm)
             nn.utils.clip_grad_norm_(self.critic.parameters(), self.max_grad_norm)
+            self.actor_optimizer.step()
             self.critic_optimizer.step()
 
             total_actor_loss += actor_loss.item()

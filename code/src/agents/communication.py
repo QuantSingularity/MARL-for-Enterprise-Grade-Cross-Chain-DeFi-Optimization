@@ -10,7 +10,7 @@ Implements communication protocols between agents including:
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from typing import List
+from typing import List, Tuple, Union
 
 
 class CommNet(nn.Module):
@@ -49,7 +49,7 @@ class CommNet(nn.Module):
         Returns:
             hidden_states: (batch, n_agents, hidden_dim)
         """
-        observations.size(0)
+        batch_size = observations.size(0)  # noqa: F841
 
         # Encode observations
         hidden = F.relu(self.encoder(observations))
@@ -68,15 +68,22 @@ class CommNet(nn.Module):
         return output
 
 
-class AttentionComm(nn.Module):
+class AttentionCommunicationModule(nn.Module):
     """
     Attention-based Communication.
 
     Uses multi-head attention for selective message passing.
+    Projects raw observations (input_dim) to hidden_dim before communication,
+    and supports returning attention weights for analysis.
     """
 
     def __init__(
-        self, input_dim: int, hidden_dim: int, n_agents: int, n_heads: int = 4
+        self,
+        input_dim: int,
+        hidden_dim: int,
+        n_agents: int,
+        n_heads: int = 4,
+        # Accept both 'obs_dim' (test-style) and 'input_dim' via constructor
     ):
         super().__init__()
 
@@ -85,13 +92,16 @@ class AttentionComm(nn.Module):
         self.n_agents = n_agents
         self.n_heads = n_heads
 
+        self.encoder = nn.Linear(input_dim, hidden_dim)
+
         # Attention
         self.attention = nn.MultiheadAttention(
             embed_dim=hidden_dim, num_heads=n_heads, batch_first=True
         )
 
         # Layer normalization
-        self.layer_norm = nn.LayerNorm(hidden_dim)
+        self.layer_norm1 = nn.LayerNorm(hidden_dim)
+        self.layer_norm2 = nn.LayerNorm(hidden_dim)
 
         # Feed-forward
         self.ff = nn.Sequential(
@@ -100,27 +110,44 @@ class AttentionComm(nn.Module):
             nn.Linear(hidden_dim * 2, hidden_dim),
         )
 
-    def forward(self, hidden_states: torch.Tensor) -> torch.Tensor:
+    def forward(
+        self,
+        observations: torch.Tensor,
+        return_attention: bool = False,
+    ) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]:
         """
         Forward pass with attention-based communication.
 
         Args:
-            hidden_states: (batch, n_agents, hidden_dim)
+            observations: (batch, n_agents, input_dim)
+            return_attention: If True, also return attention weight tensor
 
         Returns:
             updated_states: (batch, n_agents, hidden_dim)
+            attn_weights:   (batch, n_agents, n_agents)  — only if return_attention=True
         """
+        # Project observations to hidden_dim
+        hidden_states = F.relu(self.encoder(observations))
+
         # Self-attention
-        attn_out, _ = self.attention(hidden_states, hidden_states, hidden_states)
+        attn_out, attn_weights = self.attention(
+            hidden_states, hidden_states, hidden_states
+        )
 
         # Residual connection + layer norm
-        hidden_states = self.layer_norm(hidden_states + attn_out)
+        hidden_states = self.layer_norm1(hidden_states + attn_out)
 
         # Feed-forward + residual
         ff_out = self.ff(hidden_states)
-        hidden_states = self.layer_norm(hidden_states + ff_out)
+        hidden_states = self.layer_norm2(hidden_states + ff_out)
 
+        if return_attention:
+            return hidden_states, attn_weights
         return hidden_states
+
+
+# Backward-compatible alias
+AttentionComm = AttentionCommunicationModule
 
 
 class MessagePool:

@@ -296,7 +296,7 @@ class QMIXAgent:
         next_states = batch["next_states"].to(self.device)
         dones = batch["dones"].to(self.device)
 
-        observations.size(0)
+        batch_size = observations.size(0)  # noqa: F841
 
         # Compute Q-values for current state
         q_values_list = []

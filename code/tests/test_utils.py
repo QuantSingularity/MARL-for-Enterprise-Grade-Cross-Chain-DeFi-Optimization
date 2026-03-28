@@ -1,6 +1,12 @@
 """Tests for utility modules."""
 
-from code.src.utils.logger import MetricsLogger
+import sys
+import os
+
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
+
+from utils.logger import MetricsLogger
 
 
 def test_metrics_logger(tmp_path):

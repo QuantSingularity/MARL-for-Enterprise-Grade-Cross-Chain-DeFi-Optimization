@@ -101,6 +101,20 @@ def create_test_env(seed: int = 123) -> CrossChainEnv:
     return env
 
 
+def _select_actions_deterministic(agent, agent_obs: List[np.ndarray]) -> List[int]:
+    """
+    Select actions deterministically for evaluation.
+    """
+    if isinstance(agent, MAPPOAgent):
+        return agent.select_actions(agent_obs, deterministic=True)
+    elif isinstance(agent, QMIXAgent):
+        # epsilon=0 → always greedy, equivalent to deterministic
+        return agent.select_actions(agent_obs, epsilon=0.0)
+    else:
+        # Baseline agents (RandomAgent, etc.) have no deterministic mode
+        return agent.select_actions(agent_obs)
+
+
 def evaluate_agent(
     env: CrossChainEnv, agent, n_agents: int, n_episodes: int = 20, seed: int = 42
 ) -> Dict[str, List]:
@@ -140,10 +154,7 @@ def evaluate_agent(
             obs_dim = obs.shape[0] // n_agents
             agent_obs = [obs[i * obs_dim : (i + 1) * obs_dim] for i in range(n_agents)]
 
-            if isinstance(agent, (QMIXAgent, MAPPOAgent)):
-                actions = agent.select_actions(agent_obs, deterministic=True)
-            else:
-                actions = agent.select_actions(agent_obs)
+            actions = _select_actions_deterministic(agent, agent_obs)
 
             action = np.array([actions[0], 0, 100.0, 0])
             obs, reward, terminated, truncated, info = env.step(action)

@@ -388,6 +388,19 @@ def train_mappo(
     return metrics
 
 
+def _to_serializable(vals):
+    """
+    Convert a list of metric values to a JSON-serialisable list of Python floats.
+
+    """
+    if not vals:
+        return vals
+    if isinstance(vals[0], (float, int)):
+        return vals
+    # Handle numpy scalar types
+    return [float(v) for v in vals]
+
+
 def main():
     """Main training function."""
     import argparse
@@ -448,17 +461,11 @@ def main():
     # Save metrics
     metrics_path = output_dir / "training_metrics.json"
     with open(metrics_path, "w") as f:
-        # Convert numpy types to Python types for JSON serialization
-        serializable_metrics = {}
-        for agent, m in all_metrics.items():
-            serializable_metrics[agent] = {
-                k: (
-                    [float(v) for v in vals]
-                    if isinstance(vals[0], (np.floating, np.integer))
-                    else vals
-                )
-                for k, vals in m.items()
-            }
+
+        serializable_metrics = {
+            agent_name: {k: _to_serializable(vals) for k, vals in m.items()}
+            for agent_name, m in all_metrics.items()
+        }
         json.dump(serializable_metrics, f, indent=2)
 
     print(f"\nMetrics saved: {metrics_path}")

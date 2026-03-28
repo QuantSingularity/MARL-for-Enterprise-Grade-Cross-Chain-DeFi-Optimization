@@ -159,22 +159,19 @@ class Pool:
         Returns:
             (output_amount, price_impact)
         """
+        # Capture pre-swap price for price impact calculation
+        price_before = self.get_price() if self.reserve_a > 0 else 0.0
+
         output_amount = self.get_output_amount(input_amount, input_token)
 
         if input_token == "A":
             self.reserve_a += input_amount
             self.reserve_b -= output_amount
-            price_before = (self.reserve_b + output_amount) / (
-                self.reserve_a - input_amount
-            )
-            price_after = self.reserve_b / self.reserve_a
         else:
             self.reserve_b += input_amount
             self.reserve_a -= output_amount
-            price_before = (self.reserve_b - input_amount) / (
-                self.reserve_a + output_amount
-            )
-            price_after = self.reserve_b / self.reserve_a
+
+        price_after = self.get_price()
 
         price_impact = (
             abs(price_after - price_before) / price_before if price_before > 0 else 0.0
@@ -247,7 +244,7 @@ class CrossChainEnv(gym.Env):
         # action_type: 0=swap, 1=bridge, 2=add_liquidity, 3=remove_liquidity, 4=noop
         self.action_space = spaces.Box(
             low=np.array([0, 0, 0, 0]),
-            high=np.array([5, len(self.chains), 1000, len(self.chains)]),
+            high=np.array([4, len(self.chains) - 1, 1000, len(self.chains) - 1]),
             dtype=np.float32,
         )
 
@@ -468,10 +465,8 @@ class CrossChainEnv(gym.Env):
                 "reason": "bridge_failed",
             }
 
-        # Update balances
         fee = amount * bridge.fee_basis_points / 10000
-        self.balances["ETH"] -= amount
-        self.balances["ETH"] = self.balances.get("ETH", 0) + amount - fee
+        self.balances["ETH"] -= fee
 
         # Pay gas on source chain
         gas_cost = self.chains[source_chain].current_gas_price * 100000 / 1e9

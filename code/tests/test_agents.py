@@ -13,7 +13,11 @@ import numpy as np
 from agents.qmix import QMIXAgent, QMIXMixer, AgentNetwork
 from agents.mappo import MAPPOAgent
 from agents.baselines import RandomAgent, IndependentQLearning
+
+
 from agents.communication import AttentionCommunicationModule
+
+
 from agents.gnn_encoder import GNNEncoder, GraphAttentionLayer
 
 
@@ -159,14 +163,18 @@ class TestCommunication:
     """Tests for communication module."""
 
     def test_attention_communication(self):
+
         comm = AttentionCommunicationModule(
-            n_agents=3, obs_dim=10, hidden_dim=32, n_heads=4
+            input_dim=10, hidden_dim=32, n_agents=3, n_heads=4
         )
 
         observations = torch.randn(4, 3, 10)  # batch=4, 3 agents, obs_dim=10
+
         enhanced_obs, attn_weights = comm(observations, return_attention=True)
 
         assert enhanced_obs.shape == (4, 3, 32)
+        # MultiheadAttention with batch_first=True returns average weights:
+        # shape is (batch, tgt_len, src_len) = (4, 3, 3)
         assert attn_weights.shape == (4, 3, 3)
 
 
@@ -174,17 +182,18 @@ class TestGNNEncoder:
     """Tests for GNN encoder."""
 
     def test_gat_layer(self):
+
         layer = GraphAttentionLayer(in_features=16, out_features=32, n_heads=4)
 
         x = torch.randn(4, 10, 16)  # batch=4, 10 nodes, 16 features
-        adj = torch.rand(4, 10, 10) > 0.5  # Random adjacency
-        adj = adj.float()
+        adj = (torch.rand(4, 10, 10) > 0.5).float()  # Random adjacency
 
         out = layer(x, adj)
 
         assert out.shape == (4, 10, 32)
 
     def test_gnn_encoder(self):
+
         encoder = GNNEncoder(
             node_feature_dim=16, hidden_dim=32, output_dim=64, n_layers=2
         )
@@ -197,6 +206,7 @@ class TestGNNEncoder:
         assert embeddings.shape == (4, 10, 64)
 
     def test_graph_embedding(self):
+
         encoder = GNNEncoder(node_feature_dim=16, hidden_dim=32, output_dim=64)
 
         node_features = torch.randn(4, 10, 16)
