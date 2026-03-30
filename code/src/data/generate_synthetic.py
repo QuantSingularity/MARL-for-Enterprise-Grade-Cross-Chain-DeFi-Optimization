@@ -173,7 +173,6 @@ class SyntheticDataGenerator:
             )
 
             # Block numbers
-            block_times = [12.0 if i == 0 else 0.25]  # Ethereum vs L2
             block_numbers = np.arange(n_steps)
 
             # Token prices
