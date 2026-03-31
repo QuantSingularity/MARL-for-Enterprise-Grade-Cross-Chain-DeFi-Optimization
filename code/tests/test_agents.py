@@ -2,23 +2,19 @@
 Unit tests for MARL Agents
 """
 
-import sys
 import os
+import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
+import numpy as np
 import pytest
 import torch
-import numpy as np
-from agents.qmix import QMIXAgent, QMIXMixer, AgentNetwork
-from agents.mappo import MAPPOAgent
-from agents.baselines import RandomAgent, IndependentQLearning
-
-
+from agents.baselines import IndependentQLearning, RandomAgent
 from agents.communication import AttentionCommunicationModule
-
-
 from agents.gnn_encoder import GNNEncoder, GraphAttentionLayer
+from agents.mappo import MAPPOAgent
+from agents.qmix import AgentNetwork, QMIXAgent, QMIXMixer
 
 
 class TestAgentNetwork:

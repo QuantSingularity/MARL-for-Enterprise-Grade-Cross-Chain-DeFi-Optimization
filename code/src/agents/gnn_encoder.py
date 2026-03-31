@@ -14,10 +14,11 @@ Shape convention throughout:
     output           : (batch, n_nodes, output_dim)
 """
 
+from typing import Optional
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from typing import Optional
 
 
 class GraphAttentionLayer(nn.Module):

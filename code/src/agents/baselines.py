@@ -6,11 +6,12 @@ Implements simple baselines for MARL evaluation:
 - IndependentQLearning: Independent Q-learning (no coordination)
 """
 
+from typing import Dict, List, Optional
+
 import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from typing import List, Dict, Optional
 
 
 class RandomAgent:

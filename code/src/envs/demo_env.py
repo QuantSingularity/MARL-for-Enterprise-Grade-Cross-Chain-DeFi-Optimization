@@ -4,7 +4,7 @@ Demo script for Cross-Chain Environment
 Runs a short rollout demonstrating the environment functionality.
 """
 
-from cross_chain_env import CrossChainEnv, Chain, Bridge, Pool
+from cross_chain_env import Bridge, Chain, CrossChainEnv, Pool
 
 
 def create_default_env() -> CrossChainEnv:

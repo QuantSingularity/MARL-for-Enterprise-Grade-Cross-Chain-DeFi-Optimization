@@ -1,8 +1,8 @@
 """Checkpointing utilities for model saving and loading."""
 
+import json
 from pathlib import Path
 from typing import Dict, Optional
-import json
 
 
 class CheckpointManager:

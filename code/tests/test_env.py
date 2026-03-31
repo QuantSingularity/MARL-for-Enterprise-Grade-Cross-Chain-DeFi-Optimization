@@ -2,14 +2,14 @@
 Unit tests for Cross-Chain Environment
 """
 
-import sys
 import os
+import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
-import pytest
 import numpy as np
-from envs.cross_chain_env import CrossChainEnv, Chain, Bridge, Pool
+import pytest
+from envs.cross_chain_env import Bridge, Chain, CrossChainEnv, Pool
 
 
 class TestChain:

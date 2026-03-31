@@ -7,10 +7,11 @@ Implements communication protocols between agents including:
 - CommNet-style architectures
 """
 
+from typing import List, Tuple, Union
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from typing import List, Tuple, Union
 
 
 class CommNet(nn.Module):

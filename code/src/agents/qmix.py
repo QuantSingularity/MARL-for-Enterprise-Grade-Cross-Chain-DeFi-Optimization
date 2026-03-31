@@ -5,11 +5,12 @@ Based on: Rashid et al. "QMIX: Monotonic Value Function Factorisation for
 Deep Multi-Agent Reinforcement Learning" (ICML 2018)
 """
 
+from typing import Dict, List, Optional, Tuple
+
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import numpy as np
-from typing import Dict, List, Tuple, Optional
 
 
 class AgentNetwork(nn.Module):

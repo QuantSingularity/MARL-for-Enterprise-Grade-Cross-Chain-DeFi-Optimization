@@ -4,9 +4,10 @@ Evaluation Metrics for MARL Agents
 Comprehensive metrics for evaluating DeFi optimization performance.
 """
 
-import numpy as np
-from typing import Dict, List
 from dataclasses import dataclass
+from typing import Dict, List
+
+import numpy as np
 
 
 @dataclass

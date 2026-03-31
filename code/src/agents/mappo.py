@@ -5,11 +5,12 @@ Based on: Yu et al. "The Surprising Effectiveness of PPO in Cooperative
 Multi-Agent Games" (NeurIPS 2022)
 """
 
+from typing import Dict, List, Optional, Tuple
+
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import numpy as np
-from typing import Dict, List, Tuple, Optional
 from torch.distributions import Categorical
 
 

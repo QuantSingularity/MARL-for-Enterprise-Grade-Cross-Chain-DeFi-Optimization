@@ -5,23 +5,23 @@ Demonstrates end-to-end training pipeline with QMIX and MAPPO agents.
 Designed to run quickly on CPU for demonstration purposes.
 """
 
-import sys
 import os
+import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-import torch
-import numpy as np
-import yaml
 import json
 from pathlib import Path
 from typing import Dict, List
-from tqdm import tqdm
 
-from envs.cross_chain_env import CrossChainEnv, Chain, Bridge, Pool
-from agents.qmix import QMIXAgent
-from agents.mappo import MAPPOAgent
+import numpy as np
+import torch
+import yaml
 from agents.baselines import IndependentQLearning
+from agents.mappo import MAPPOAgent
+from agents.qmix import QMIXAgent
+from envs.cross_chain_env import Bridge, Chain, CrossChainEnv, Pool
+from tqdm import tqdm
 
 
 class ReplayBuffer:

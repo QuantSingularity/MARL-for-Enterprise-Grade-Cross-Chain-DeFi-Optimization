@@ -7,11 +7,11 @@ Implements multi-agent reinforcement learning algorithms:
 - Baselines: Independent Q-Learning, Random Agent
 """
 
-from .qmix import QMIXAgent, QMIXMixer
-from .mappo import MAPPOAgent, MAPPOCritic
-from .baselines import RandomAgent, IndependentQLearning
+from .baselines import IndependentQLearning, RandomAgent
 from .communication import AttentionCommunicationModule
 from .gnn_encoder import GNNEncoder
+from .mappo import MAPPOAgent, MAPPOCritic
+from .qmix import QMIXAgent, QMIXMixer
 
 __all__ = [
     "QMIXAgent",

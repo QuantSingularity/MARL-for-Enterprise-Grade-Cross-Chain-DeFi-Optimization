@@ -5,9 +5,9 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-from envs.cross_chain_env import CrossChainEnv, Chain, Pool
-from agents.qmix import QMIXAgent
 from agents.mappo import MAPPOAgent
+from agents.qmix import QMIXAgent
+from envs.cross_chain_env import Chain, CrossChainEnv, Pool
 
 
 def create_test_env():

@@ -2,12 +2,12 @@
 Logging utilities for MARL training and evaluation.
 """
 
+import json
 import logging
 import sys
+from datetime import datetime
 from pathlib import Path
 from typing import Optional
-import json
-from datetime import datetime
 
 
 def setup_logger(
